@@ -4,15 +4,28 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
+
 @app.route('/time')
 def get_current_time():
     return {'time': time.time()}
+
 
 @app.route('/getZip', methods=['POST'])
 def getZip():
     req_Json = request.json
     zip = req_Json['zip']
     return jsonify({"zipCode": zip})
+
+
+@app.route('/getResults', methods=['GET'])
+def getResults():
+    # req_Json = request.json
+    # userLocation = req_Json['zip)']
+    # storeLocation= req_Json['location']
+    # transfercost=req_Json['transfer_cost']
+    return jsonify({"Transfer Cost": "300.00", "userLocation": ['-34.232423', '89.2342342'],
+                    "storeLocation": ['21.324342', '-23.0000']})
+
 
 @app.route('/login', methods=['POST'])
 def getLogIn():
@@ -28,4 +41,4 @@ def getSignup():
     userName = req_Json['userName']
     password = req_Json['password']
     confirmPassword = req_Json['confirmPassword']
-    return jsonify({"userName": userName, "password": password, "confirmPassword":confirmPassword})
+    return jsonify({"userName": userName, "password": password, "confirmPassword": confirmPassword})

@@ -22,7 +22,6 @@ You will also see any lint errors in the console.
 
 Runs the flask server.<br />
 Open [http://localhost:5000/time](http://localhost:5000/time) to view time since epic in JSON format in the browser.
-
 The page will reload if you make edits.<br />
 You will also see any errors in the console.
 
