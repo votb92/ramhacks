@@ -1,4 +1,7 @@
 import pyrebase
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
 
 firebaseConfig = {'apiKey': "AIzaSyByvfhbKg2soP06lWoAQNUkicTF6Yfw2rc",
                   'authDomain': "ramhacks-196ad.firebaseapp.com",
@@ -9,17 +12,26 @@ firebaseConfig = {'apiKey': "AIzaSyByvfhbKg2soP06lWoAQNUkicTF6Yfw2rc",
                   'appId': "1:311742632429:web:96ce7bd052c5f8d8d7d7e4",
                   'measurementId': "G-452SGS4GQ9"}
 
-firebase = pyrebase.initialize_app(firebaseConfig)
+fb = pyrebase.initialize_app(firebaseConfig)
 
-# Storage
-storage = firebase.storage()
-# Upload file to Storage
-# filename = input("Enter filename: ")
-# cloudfilename = input("Name of file on the cloud: ")
-# storage.child(cloudfilename).put(filename)
-# url = storage.child(cloudfilename).get_url(None)
-# print(url)
+cred = credentials.Certificate('./ramhacks-196ad-89c6b1e9fb48.json')
 
-# Downloading file from Storage
-cloudfilename = input("Name of file you want to download")
-storage.child(cloudfilename).download("", "localfilename.txt")
+# initialize database
+firebase = firebase_admin.initialize_app(cred)
+db = firestore.client()
+
+# Database reference to stores
+stores_ref = db.collection(u'stores')
+docs = stores_ref.stream()
+
+stores = {}
+for doc in docs:
+    # grab all data from stores collection
+    print(f'{doc.id} => {doc.to_dict()}')
+
+    # single_store = doc.to_dict()
+    # print(single_store)
+
+
+# print(stores)
+geolocations = []
