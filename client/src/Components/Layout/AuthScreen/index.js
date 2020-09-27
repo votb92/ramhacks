@@ -1,13 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 import { ExampleCard } from '../../Card'
 
 const LayoutDivLeft = styled.div`
-  height: 100vh;
+  height: 100%;
   width: 50vw;
   border-width: 2px;
   border-color: red;
-  background-color: blue;
 `
 const LayoutDivRight = styled.div`
   height: 100vh;
@@ -20,11 +19,18 @@ const ParentDiv = styled.div`
   display: flex;
 `
 
-export const Body = props => {
+const CardContainer = styled.div`
+  width: 65%;
+  margin: 30% auto;
+`
+
+export const AuthScreen = (props) => {
   return (
     <ParentDiv>
       <LayoutDivLeft>
-        <ExampleCard />
+        <CardContainer>
+          <ExampleCard />
+        </CardContainer>
       </LayoutDivLeft>
       <LayoutDivRight></LayoutDivRight>
     </ParentDiv>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Header } from './Components/Layout/Header'
-import { Body } from './Components/Layout/Body'
+import { MyRoutes } from './MyRoutes'
 import { Footer } from './Components/Layout/Footer'
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
   return (
     <div>
       <Header />
-      <Body />
+      <MyRoutes />
       <Footer />
     </div>
   )
