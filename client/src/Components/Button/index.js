@@ -7,7 +7,9 @@ const StyledButton = styled.button`
 `
 
 export const Button = props => {
+//javascript goes here
   return (
+  //html goes here
     <div>
       <StyledButton>
         Click Here
