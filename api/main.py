@@ -24,14 +24,31 @@ db = firestore.client()
 stores_ref = db.collection(u'stores')
 docs = stores_ref.stream()
 
-stores = {}
+stores = []
+stores_locations = []
+stores_cars = []
+stores_address = []
+
 for doc in docs:
     # grab all data from stores collection
-    print(f'{doc.id} => {doc.to_dict()}')
+    # print(f'{doc.id} => {doc.to_dict()}')
+    stores.append({doc.id: doc.to_dict()})
 
-    # single_store = doc.to_dict()
-    # print(single_store)
+    single_store = doc.to_dict()
+    stores_locations.append({doc.id: [single_store['location'].longitude, single_store['location'].latitude]})
+    stores_cars.append({doc.id: single_store['cars']})
+    stores_address.append({doc.id: single_store['address']})
 
+
+for location in stores_locations:
+    print(location)
+
+
+for cars in stores_cars:
+    print(cars)
+
+
+for address in stores_address:
+    print(address)
 
 # print(stores)
-geolocations = []
