@@ -13,6 +13,7 @@ __pycache__
 ./api/.idea
 trialapirun.py
 zipcode.py
+googleapi.py
 app.py
 ramhacks-196ad-firebase-adminsdk-pfns7-643850173d.json
 test1.py
