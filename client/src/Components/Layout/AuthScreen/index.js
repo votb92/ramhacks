@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
-import { ExampleCard } from '../../Card'
+import { AuthCard } from '../../Card'
 
 const LayoutDivLeft = styled.div`
   height: 100%;
@@ -25,15 +25,15 @@ const CardContainer = styled.div`
 `
 
 export const AuthScreen = (props) => {
+
   return (
     <ParentDiv>
       <LayoutDivLeft>
         <CardContainer>
-          <ExampleCard />
+          <AuthCard />
         </CardContainer>
       </LayoutDivLeft>
-      <LayoutDivRight>
-      </LayoutDivRight>
+      <LayoutDivRight></LayoutDivRight>
     </ParentDiv>
   )
 }

@@ -1,13 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
-import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import TextField from '@material-ui/core/TextField'
-import { Link } from 'react-router-dom'
+import Slider from '@material-ui/core/Slider';
 
 const useStyles = makeStyles({
   root: {
@@ -17,71 +14,77 @@ const useStyles = makeStyles({
     marginLeft: "5%",
     marginRight: "5%"
   },
-  button: {
-    background: '#FFD900',
-    width: '85%',
-    '&:hover': {
-      background: '#053361',
-      color: 'white',
-    },
-  },
-  title: {
-    fontSize: 14,
-    opacity: 0.5,
-    marginBottom: '1rem',
-  },
-  buttonContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  inputs: {
-    width: '100%',
-  },
-  links: {
-    display: 'flex',
-    justifyContent: 'center',
-    boxSizing: "border-box",
-    paddingBottom: "1rem"
+  headingStyling: {
+    color: '#053361',
   }
 })
 
+function valuetext(value) {
+  return `${value}`;
+}
+
 export const Filter = () => {
   const classes = useStyles()
+  const [value, setValue] = React.useState([0, 75]);
+  const [year, setYear] = React.useState([0, 75]);
+  const [mile, setMile] = React.useState([0, 75]);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const handleYear = (event, newValue) => {
+    setYear(newValue);
+  };
+
+  const handleMile = (event, newValue) => {
+    setMile(newValue);
+  };
 
   return (
     <Card className={classes.root}>
       <CardContent className={classes.contentContainer}>
-        <Typography color='#053361' gutterBottom variant='h4'>
-          Sign In
+        <Typography className={classes.headingStyling} gutterBottom variant='h4'>
+          Sort By
         </Typography>
         <br />
-        <Typography className={classes.title} component='h2'>
-          To deliver this car, sign in to your MyCarMax
-        </Typography>
-        <TextField
-          className={classes.inputs}
-          id='standard-basic'
-          label='Email'
-          type='email'
-        />
-        <TextField
-          className={classes.inputs}
-          id='outlined-password-input'
-          label='Password'
-          type='password'
-        />
+        <Typography id="range-slider" gutterBottom>
+        Price range
+      </Typography>
+      <Slider
+        value={value}
+        onChange={handleChange}
+        valueLabelDisplay="auto"
+        aria-labelledby="range-slider"
+        getAriaValueText={valuetext}
+      />
+      <br />
+        <Typography id="range-slider" gutterBottom>
+        Year range
+      </Typography>
+      <Slider
+        value={year}
+        onChange={handleYear}
+        valueLabelDisplay="auto"
+        aria-labelledby="range-slider"
+        getAriaValueText={valuetext}
+      />
+      <br />
+        <Typography id="range-slider" gutterBottom>
+        Mileage range
+      </Typography>
+      <Slider
+        value={mile}
+        onChange={handleMile}
+        valueLabelDisplay="auto"
+        aria-labelledby="range-slider"
+        getAriaValueText={valuetext}
+      />
       </CardContent>
-      <CardActions className={classes.buttonContainer}>
-        <Button size='large' className={classes.button}>
-          Sign In
-        </Button>
-      </CardActions>
-      <Typography className={classes.links} component='h2'>
-        <Link path='/'>Forgot Password?</Link>
-      </Typography>
-      <Typography className={classes.links} component='h2'>
-        <Link path='/'>Forgot Password?</Link>
-      </Typography>
+
+      <div>
+
+      </div>
       
     </Card>
   )

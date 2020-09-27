@@ -1,21 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
+// import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
-import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import TextField from '@material-ui/core/TextField'
-import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
   },
   contentContainer: {
-    marginLeft: "5%",
-    marginRight: "5%"
+    marginLeft: '5%',
+    marginRight: '5%',
   },
   button: {
     background: '#FFD900',
@@ -30,6 +28,13 @@ const useStyles = makeStyles({
     opacity: 0.5,
     marginBottom: '1rem',
   },
+  dataPrice: {
+    fontSize: 14,
+    opacity: 0.5,
+    marginBottom: '1rem',
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
   buttonContainer: {
     display: 'flex',
     justifyContent: 'center',
@@ -37,52 +42,74 @@ const useStyles = makeStyles({
   horizLine: {
     width: '100%',
     height: '5px',
-    backgroundColor: "gray"
+    backgroundColor: 'gray',
   },
   links: {
     display: 'flex',
     justifyContent: 'left',
-    boxSizing: "border-box",
-    paddingBottom: "1rem",
+    boxSizing: 'border-box',
+    paddingBottom: '1rem',
     paddingLeft: '2.5rem',
-    fontSize: 8
-  }
+    fontSize: 8,
+  },
+  headingStyling: {
+    color: '#053361',
+  },
 })
 
-export const CarCard = () => {
+export const CarCard = (props) => {
+  const history = useHistory()
   const classes = useStyles()
-  const bull = <span className={classes.bullet}>•</span>;
+  const bull = <span className={classes.bullet}>•</span>
+  const [getStoreData, setStoreData] = useState([])
+  const [getStoreId, setStoreId] = useState([])
+  const [getPrice, setPrice] = useState([])
+
+  useEffect(() => {
+    setStoreData(history.location.state.storeData)
+    setStoreId(Object.keys(history.location.state.storeData[0]))
+    setPrice(Object.values(history.location.state.storeData[0]))
+  }, [])
 
   return (
     <>
-    <Card className={classes.root}>
-      <CardContent className={classes.contentContainer}>
-        <Typography color='#053361' gutterBottom variant='h4'>
-          2020 Hyundai<br />
-          Santa Fe
-        </Typography>
-        <br />
-        <Typography className={classes.title} component='h2'>
-          $18,988 {bull} 35K Miles
-        </Typography>
-        <Typography className={classes.title} component='h2'>
-          $257/month
-        </Typography>
+      <Card className={classes.root}>
+        <div>
+          <image src='./santafe.png' alt='logo' height='300px' width='300px' />
+        </div>
 
-        <br />
-        <div className={classes.horizLine} ></div>
-        
-      </CardContent>
+        <CardContent className={classes.contentContainer}>
+          <Typography
+            className={classes.headingStyling}
+            gutterBottom
+            variant='h4'
+          >
+            2020 Hyundai
+            <br />
+            Santa Fe
+          </Typography>
+          <br />
+          <Typography className={classes.dataPrice} component='h2'>
+            <span>$18,988 {bull} 35K Miles</span>
+            <span>
+              Transfer fee: {getPrice[0] == 0 ? 'FREE' : `${getPrice[0]}`}
+            </span>
+          </Typography>
+          <Typography className={classes.title} component='h2'>
+            $257/month
+          </Typography>
 
-      <Typography className={classes.links} component='h2'>
-        Carmax West Broad
-      </Typography>
-      <Typography className={classes.links} component='h2'>
-        In Stock
-      </Typography>
-      
-    </Card>
-    <image src='./santafe.png' alt="logo" height="300px" width="300px" />
+          <br />
+          <div className={classes.horizLine}></div>
+        </CardContent>
+
+        <Typography className={classes.links} component='h2'>
+          Carmax West Broad
+        </Typography>
+        <Typography className={classes.links} component='h2'>
+          In Stock
+        </Typography>
+      </Card>
     </>
   )
 }

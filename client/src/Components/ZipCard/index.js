@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -7,7 +7,7 @@ import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
-import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles({
   root: {
@@ -43,6 +43,9 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'center',
   },
+  headingStyling: {
+    color: '#053361',
+  },
 })
 
 const svgZip = (
@@ -60,9 +63,9 @@ const svgZip = (
         x2='0.5'
         gradientUnits='objectBoundingBox'
       >
-        <stop offset='0' stop-color='gray' stop-opacity='0.251' />
-        <stop offset='0.535' stop-color='gray' stop-opacity='0.122' />
-        <stop offset='1' stop-color='gray' stop-opacity='0.102' />
+        <stop offset='0' stopColor='gray' stopOpacity='0.251' />
+        <stop offset='0.535' stopColor='gray' stopOpacity='0.122' />
+        <stop offset='1' stopColor='gray' stopOpacity='0.102' />
       </linearGradient>
       <linearGradient
         id='linear-gradient-4'
@@ -71,9 +74,9 @@ const svgZip = (
         x2='0.5'
         gradientUnits='objectBoundingBox'
       >
-        <stop offset='0' stop-color='#b3b3b3' stop-opacity='0.251' />
-        <stop offset='0.535' stop-color='#b3b3b3' stop-opacity='0.102' />
-        <stop offset='1' stop-color='#b3b3b3' stop-opacity='0.051' />
+        <stop offset='0' stopColor='#b3b3b3' stopOpacity='0.251' />
+        <stop offset='0.535' stopColor='#b3b3b3' stopOpacity='0.102' />
+        <stop offset='1' stopColor='#b3b3b3' stopOpacity='0.051' />
       </linearGradient>
       <linearGradient
         id='linear-gradient-5'
@@ -82,9 +85,9 @@ const svgZip = (
         x2='0.5'
         gradientUnits='objectBoundingBox'
       >
-        <stop offset='0' stop-opacity='0.122' />
-        <stop offset='0.551' stop-opacity='0.09' />
-        <stop offset='1' stop-opacity='0.02' />
+        <stop offset='0' stopOpacity='0.122' />
+        <stop offset='0.551' stopOpacity='0.09' />
+        <stop offset='1' stopOpacity='0.02' />
       </linearGradient>
       <linearGradient
         id='linear-gradient-6'
@@ -93,9 +96,9 @@ const svgZip = (
         x2='0.5'
         gradientUnits='objectBoundingBox'
       >
-        <stop offset='0.005' stop-opacity='0.122' />
-        <stop offset='0.551' stop-opacity='0.09' />
-        <stop offset='1' stop-opacity='0.051' />
+        <stop offset='0.005' stopOpacity='0.122' />
+        <stop offset='0.551' stopOpacity='0.09' />
+        <stop offset='1' stopOpacity='0.051' />
       </linearGradient>
     </defs>
     <g id='Group_339' data-name='Group 339' transform='translate(0 0)'>
@@ -328,13 +331,35 @@ const svgZip = (
 
 export const ZipCard = () => {
   const classes = useStyles()
-  const bull = <span className={classes.bullet}>•</span>
+  const history = useHistory()
+  const [getZip, setZip] = useState('')
+
+  const zipHandler = (e) => {
+    setZip(e.target.value)
+  }
+
+  const submitHandler = () => {
+    fetch('/getZip', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify({ zip: getZip }),
+    }).then((res) => res.json()).then(data => {
+      console.log(data)
+      return history.push('/home',{ storeData: data})
+    }).catch(e => {
+      console.log(e)
+      alert("error " + e)
+    })
+  }
 
   return (
     <Card className={classes.root}>
       <CardContent className={classes.contentContainer}>
         <div className={classes.buttonContainer}>{svgZip}</div>
-        <Typography color='#053361' gutterBottom variant='h4' align='center'>
+        <Typography className={classes.headingStyling} gutterBottom variant='h4' align='center'>
           We want you to get a great price on a car you love.
         </Typography>
         <br />
@@ -348,12 +373,14 @@ export const ZipCard = () => {
             className={classes.inputs}
             id='standard-basic'
             label='Enter your Zip Code'
+            value={getZip}
+            onChange={zipHandler}
           />
         </div>
       </CardContent>
       <CardActions className={classes.buttonContainer}>
-        <Button size='large' className={classes.button}>
-          Sign In
+        <Button size='large' className={classes.button} onClick={submitHandler}>
+          Find By Zip Code
         </Button>
       </CardActions>
     </Card>
