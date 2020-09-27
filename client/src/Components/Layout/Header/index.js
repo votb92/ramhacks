@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 
-const NavbarComponent = () => (
+const Header = () => (
   <svg width={1938} height={72} viewBox="0 0 1938 72">
     <defs>
       <style>{".a{fill:#fff;}.b{fill:#053361;}.c{filter:url(#a);}"}</style>
@@ -56,4 +56,4 @@ const NavbarComponent = () => (
   </svg>
 );
 
-export default NavbarComponent;
+export default Header;
