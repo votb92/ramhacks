@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Header } from './Components/Layout/Header'
+import Header from './Components/Layout/Header'
 import { MyRoutes } from './MyRoutes'
 import { Footer } from './Components/Layout/Footer'
 
