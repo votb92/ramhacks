@@ -74,9 +74,9 @@ export const CarCard = (props) => {
   return (
     <>
       <Card className={classes.root}>
-        <div>
+        {/* <div>
           <image src='./santafe.png' alt='logo' height='300px' width='300px' />
-        </div>
+        </div> */}
 
         <CardContent className={classes.contentContainer}>
           <Typography
