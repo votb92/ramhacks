@@ -1,6 +1,8 @@
 import time
+import json
 import User
-from flask import Flask, request, jsonify
+import main
+from flask import Flask, request, jsonify, Response
 
 app = Flask(__name__)
 
@@ -14,7 +16,11 @@ def get_current_time():
 def getZip():
     req_Json = request.json
     zip = req_Json['zip']
-    return jsonify({"zipCode": zip})
+    store_distance = main.getDistance(zip)
+    print(store_distance)
+    # data=json.dump(store_distance)
+    # print(data)
+    return Response(json.dumps(store_distance),  mimetype='application/json')
 
 
 @app.route('/getResults', methods=['GET'])
