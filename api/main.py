@@ -30,6 +30,7 @@ stores = []
 stores_locations = []
 stores_cars = []
 stores_address = []
+stores_distance_from_user = []
 
 for doc in docs:
     # grab all data from stores collection
@@ -37,40 +38,49 @@ for doc in docs:
     stores.append({doc.id: doc.to_dict()})
 
     single_store = doc.to_dict()
-    stores_locations.append({doc.id: [single_store['location'].longitude, single_store['location'].latitude]})
+    stores_locations.append({doc.id: [single_store['location'].latitude, single_store['location'].longitude]})
     stores_cars.append({doc.id: single_store['cars']})
     stores_address.append({doc.id: single_store['address']})
 
-for location in stores_locations:
-    print(location)
+    # stores_distance_from_user.append({doc.id: ''})
 
-for cars in stores_cars:
-    print(cars)
 
-for address in stores_address:
-    print(address)
-
+#
+#
+# for cars in stores:
+#      print(cars)
+#
+#
+# for address in stores_address:
+#     print(address)
+#
+# for distance in stores_distance_from_user:
+#     print(distance)
 # print(stores)
 
 
-# API KEY
-# api_file= ("api-key.txt", "r")
+############Error#############
+
+#API KEY
+#api_file= ("api-key.txt", "r")
+
+
+#################################################
 api_key = "AIzaSyB2zq4lAoXmUL-vRSmJH7uRhvOsIsBRLgk"
 
-userLocation = input("Enter user address\n")
-storeLocation = input("enter store address\n")
+storeLocation = ''
+#
 
-url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&"
-r = requests.get(url + "origins=" + userLocation + "&destinations=" + storeLocation + "&key=" + api_key)
-
-miles = ''
-second = ''
-
-if r.status_code == 200:
-    data = json.loads(r.text)
-    miles = data['rows'][0]['elements'][0]['distance']['text']
-    seconds = data["rows"][0]["elements"][0]["duration"]["value"]
-    print("\nThe total travel distance from user to car store is ", miles)
+#r=requests.get(url + "origins=" + userLocation + "&destinations=" +storeLocation +"&key=" +api_key)
+#
+# if r.status_code == 200:
+#     data = json.loads(r.text)
+#     #miles = data['rows'][0]['elements'][0]['distance']['text']
+#     #seconds = data["rows"][0]["elements"][0]["duration"]["value"]
+#     print(data)
+#################################################
+#Print total time
+#print(data)
 
 ### Calculations for Transfer Fee
 ## Notes: Algorithm- Distance of User to Dealership in Miles Divided by Distnace of US-20
@@ -79,20 +89,58 @@ if r.status_code == 200:
 ## No parameters were provided by CarMax, so this equation is written to be a direct calculation and takes into account no factors ie. interstate shipping regulations, inflation, etc.
 
 # Assume we take the variable directly from miles variable
-distance = re.sub(r'[^\d]', '', miles)
+def CalculateTransferCost(miles):
+    distance = re.sub(r'[^\d]', '', miles)
 
 
-def roundtens(x):
-    return int(round(x / 10.0)) * 10
+    def roundtens(x):
+        return int(round(x / 10.0)) * 10
 
 
-# Algorithm
-route_20_distance = 3365
-transfer_cost = int(distance) / route_20_distance * 999
-transfer_cost = roundtens(transfer_cost) - .01
+    # Algorithm
+    route_20_distance = 3365
+    transfer_cost = int(distance) / route_20_distance * 999
+    transfer_cost = roundtens(transfer_cost) - .01
 
-if transfer_cost < 150:
-    transfer_cost = 0
-    print(transfer_cost)
-else:
-    print(transfer_cost)
+    if transfer_cost < 150:
+        transfer_cost = 0
+        return transfer_cost
+    else:
+        return transfer_cost
+
+def getDistance(zip) :
+    url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&"
+    userLocation = str(zip)
+    final_list=[]
+    for locus in stores_locations:
+        alist = list(locus.items())
+        #alist[0][0] = store ID
+        #alist[0][1][0] = lat
+        #alist[0][1][1] = long
+        storeLocation = str(alist[0][1][0])+","+str(alist[0][1][1])
+
+        r = requests.get(url + "origins=" + userLocation + "&destinations=" + storeLocation + "&key=" + api_key)
+        if r.status_code == 200:
+             data = json.loads(r.text)
+             miles = data['rows'][0]['elements'][0]['distance']['text']
+             cost = CalculateTransferCost(miles)
+        stores_distance_from_user.append({cost : alist[0][0]})
+    temp =list(map(dict, sorted(list(i.items()) for i in stores_distance_from_user)))
+    for item in temp:
+        switchTemp = dict((y, x) for x, y in item.items())
+        final_list.append(switchTemp)
+    return final_list
+
+
+def getStoreInfo(id) :
+    id = str(id)
+    temp={}
+    for store in stores:
+        alist = list(store.items())
+        if(id == alist[0][0]):
+            temp['cars']=alist[0][1]['cars']
+            temp['address']=alist[0][1]['address']
+            # print(temp)
+            return temp
+
+# getStoreInfo('4kPLEQ3ypkBamB2lBSvz')
