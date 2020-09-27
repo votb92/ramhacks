@@ -44,12 +44,11 @@ for doc in docs:
 
     # stores_distance_from_user.append({doc.id: ''})
 
-# for location in stores_locations:
-#     print(location)
+
 #
 #
-# for cars in stores_cars:
-#     print(cars)
+# for cars in stores:
+#      print(cars)
 #
 #
 # for address in stores_address:
@@ -133,5 +132,15 @@ def getDistance(zip) :
     return final_list
 
 
+def getStoreInfo(id) :
+    id = str(id)
+    temp={}
+    for store in stores:
+        alist = list(store.items())
+        if(id == alist[0][0]):
+            temp['cars']=alist[0][1]['cars']
+            temp['address']=alist[0][1]['address']
+            # print(temp)
+            return temp
 
-
+# getStoreInfo('4kPLEQ3ypkBamB2lBSvz')
