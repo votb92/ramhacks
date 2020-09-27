@@ -1,5 +1,5 @@
 import time
-
+import User
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
@@ -32,13 +32,15 @@ def getLogIn():
     req_Json = request.json
     userName = req_Json['userName']
     password = req_Json['password']
+    User.LogIn(userName,password)
     return jsonify({"userName": userName, "password": password})
 
 
 @app.route('/signup', methods=['POST'])
 def getSignup():
     req_Json = request.json
-    userName = req_Json['userName']
-    password = req_Json['password']
+    userName = str(req_Json['userName'])
+    password = str(req_Json['password'])
     confirmPassword = req_Json['confirmPassword']
+    User.CreateUser(userName, password)
     return jsonify({"userName": userName, "password": password, "confirmPassword": confirmPassword})
