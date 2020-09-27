@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import logo from './logo.svg'
-import './App.css'
-import { Button } from './Components/Button'
-import { ExampleCard } from './Components/Card'
+import { Header } from './Components/Layout/Header'
+import { Body } from './Components/Layout/Body'
+import { Footer } from './Components/Layout/Footer'
 
 function App() {
   const [getApiData, setApiData] = useState(null)
@@ -14,24 +13,10 @@ function App() {
   }, [])
 
   return (
-    <div className='App'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className='App-link'
-          href='https://reactjs.org'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Learn React
-        </a>
-        <div>{getApiData}</div>
-        <Button />
-        <ExampleCard />
-      </header>
+    <div>
+      <Header />
+      <Body />
+      <Footer />
     </div>
   )
 }
