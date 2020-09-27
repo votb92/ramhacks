@@ -1,5 +1,6 @@
 import time
 import User
+import main
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
@@ -14,6 +15,7 @@ def get_current_time():
 def getZip():
     req_Json = request.json
     zip = req_Json['zip']
+
     return jsonify({"zipCode": zip})
 
 
