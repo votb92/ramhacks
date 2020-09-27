@@ -45,7 +45,7 @@ const useStyles = makeStyles({
   }
 })
 
-export const ExampleCard = () => {
+export const Filter = () => {
   const classes = useStyles()
 
   return (

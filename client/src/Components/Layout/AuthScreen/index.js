@@ -32,7 +32,8 @@ export const AuthScreen = (props) => {
           <ExampleCard />
         </CardContainer>
       </LayoutDivLeft>
-      <LayoutDivRight></LayoutDivRight>
+      <LayoutDivRight>
+      </LayoutDivRight>
     </ParentDiv>
   )
 }

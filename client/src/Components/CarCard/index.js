@@ -34,55 +34,55 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'center',
   },
-  inputs: {
+  horizLine: {
     width: '100%',
+    height: '5px',
+    backgroundColor: "gray"
   },
   links: {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'left',
     boxSizing: "border-box",
-    paddingBottom: "1rem"
+    paddingBottom: "1rem",
+    paddingLeft: '2.5rem',
+    fontSize: 8
   }
 })
 
-export const ExampleCard = () => {
+export const CarCard = () => {
   const classes = useStyles()
+  const bull = <span className={classes.bullet}>•</span>;
 
   return (
+    <>
     <Card className={classes.root}>
       <CardContent className={classes.contentContainer}>
         <Typography color='#053361' gutterBottom variant='h4'>
-          Sign In
+          2020 Hyundai<br />
+          Santa Fe
         </Typography>
         <br />
         <Typography className={classes.title} component='h2'>
-          To deliver this car, sign in to your MyCarMax
+          $18,988 {bull} 35K Miles
         </Typography>
-        <TextField
-          className={classes.inputs}
-          id='standard-basic'
-          label='Email'
-          type='email'
-        />
-        <TextField
-          className={classes.inputs}
-          id='outlined-password-input'
-          label='Password'
-          type='password'
-        />
+        <Typography className={classes.title} component='h2'>
+          $257/month
+        </Typography>
+
+        <br />
+        <div className={classes.horizLine} ></div>
+        
       </CardContent>
-      <CardActions className={classes.buttonContainer}>
-        <Button size='large' className={classes.button}>
-          Sign In
-        </Button>
-      </CardActions>
+
       <Typography className={classes.links} component='h2'>
-        <Link path='/'>Forgot Password?</Link>
+        Carmax West Broad
       </Typography>
       <Typography className={classes.links} component='h2'>
-        <Link path='/'>Forgot Password?</Link>
+        In Stock
       </Typography>
       
     </Card>
+    <image src='./santafe.png' alt="logo" height="300px" width="300px" />
+    </>
   )
 }
