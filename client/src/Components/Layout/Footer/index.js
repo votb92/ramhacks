@@ -6,10 +6,8 @@ const StyledButton = styled.button`
   color: white;
 `
 
-export const Button = props => {
-//javascript goes here
+export const Footer = props => {
   return (
-  //html goes here
     <div>
       <StyledButton>
         Click Here

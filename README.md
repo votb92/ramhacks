@@ -4,6 +4,12 @@
 Node - https://nodejs.org/en/<br />
 python - https://www.python.org/downloads/
 
+Run these commands in the `api/` directory after you cloned the repo, in your terminal:
+
+### python3 -m venv venv
+
+### venv/bin/flask
+
 Run these commands in the `client/` directory after you cloned the repo, in your terminal:
 
 ### `npm install`
