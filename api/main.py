@@ -4,6 +4,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 import requests,json
 import smtplib
+import re
 
 firebaseConfig = {'apiKey': "AIzaSyByvfhbKg2soP06lWoAQNUkicTF6Yfw2rc",
                   'authDomain': "ramhacks-196ad.firebaseapp.com",
@@ -56,8 +57,6 @@ for address in stores_address:
 # print(stores)
 
 
-############Error#############
-
 #API KEY
 #api_file= ("api-key.txt", "r")
 api_key = "AIzaSyB2zq4lAoXmUL-vRSmJH7uRhvOsIsBRLgk"
@@ -76,4 +75,30 @@ if r.status_code == 200:
 
 #Print total time
 #print(data)
+
+### Calculations for Transfer Fee
+## Notes: Algorithm- Distance of User to Dealership in Miles Divided by Distnace of US-20
+## US Route 20 is the longest road in America going from Boston MA to Newport Oregon
+##US Route_20 Distance- 3365 miles
+## No parameters were provided by CarMax, so this equation is written to be a direct calculation and takes into account no factors ie. interstate shipping regulations, inflation, etc.
+
+#here is a dummy variable miles
+miles= 1234
+
+#Assume we take the variable directly from miles variable
+distance= re.sub(r'[^\D]', '',miles)
+
+def roundtens(x):
+    return int(round(x/10.0))*10
+
+#Algorithm
+route_20_distance= 3365
+transfer_cost= distance/route_20_distance *999
+transfer_cost=roundtens(transfer_cost)-.01
+
+if transfer_cost < 150:
+    transfer_cost=0
+    Print(transfer_cost)
+else:
+    print(transfer_cost)
 
