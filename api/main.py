@@ -41,7 +41,7 @@ for doc in docs:
     stores_locations.append({doc.id: [single_store['location'].latitude, single_store['location'].longitude]})
     stores_cars.append({doc.id: single_store['cars']})
     stores_address.append({doc.id: single_store['address']})
-<<<<<<< HEAD
+
     # stores_distance_from_user.append({doc.id: ''})
 
 # for location in stores_locations:
@@ -83,39 +83,36 @@ storeLocation = ''
 #Print total time
 #print(data)
 
-def partition(arr, low, high) :
-    i = (low - 1)  # index of smaller element
-    pivot = arr[high]  # pivot
+### Calculations for Transfer Fee
+## Notes: Algorithm- Distance of User to Dealership in Miles Divided by Distnace of US-20
+## US Route 20 is the longest road in America going from Boston MA to Newport Oregon
+##US Route_20 Distance- 3365 miles
+## No parameters were provided by CarMax, so this equation is written to be a direct calculation and takes into account no factors ie. interstate shipping regulations, inflation, etc.
 
-    for j in range(low, high) :
+# Assume we take the variable directly from miles variable
+def CalculateTransferCost(miles):
+    distance = re.sub(r'[^\d]', '', miles)
 
-        # If current element is smaller than or
-        # equal to pivot
-        if arr[j] <= pivot :
-            # increment index of smaller element
-            i = i + 1
-            arr[i], arr[j] = arr[j], arr[i]
 
-    arr[i + 1], arr[high] = arr[high], arr[i + 1]
-    return (i + 1)
+    def roundtens(x):
+        return int(round(x / 10.0)) * 10
 
-def quickSort(arr, low, high) :
-    if len(arr) == 1 :
-        return arr
-    if low < high :
-        # pi is partitioning index, arr[p] is now
-        # at right place
-        pi = partition(arr, low, high)
 
-        # Separately sort elements before
-        # partition and after partition
-        quickSort(arr, low, pi - 1)
-        quickSort(arr, pi + 1, high)
+    # Algorithm
+    route_20_distance = 3365
+    transfer_cost = int(distance) / route_20_distance * 999
+    transfer_cost = roundtens(transfer_cost) - .01
+
+    if transfer_cost < 150:
+        transfer_cost = 0
+        return transfer_cost
+    else:
+        return transfer_cost
 
 def getDistance(zip) :
     url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&"
     userLocation = str(zip)
-    metersList = []
+    final_list=[]
     for locus in stores_locations:
         alist = list(locus.items())
         #alist[0][0] = store ID
@@ -127,70 +124,14 @@ def getDistance(zip) :
         if r.status_code == 200:
              data = json.loads(r.text)
              miles = data['rows'][0]['elements'][0]['distance']['text']
-             meters = data['rows'][0]['elements'][0]['distance']['value']
-             metersList.append(meters)
-        stores_distance_from_user.append({alist[0][0] : meters})
-    n = len(metersList)
-    quickSort(metersList, 0, n - 1)
-    print(metersList)
+             cost = CalculateTransferCost(miles)
+        stores_distance_from_user.append({cost : alist[0][0]})
+    temp =list(map(dict, sorted(list(i.items()) for i in stores_distance_from_user)))
+    for item in temp:
+        switchTemp = dict((y, x) for x, y in item.items())
+        final_list.append(switchTemp)
+    return final_list
 
 
-getDistance(23224)
-=======
-
-for location in stores_locations:
-    print(location)
-
-for cars in stores_cars:
-    print(cars)
-
-for address in stores_address:
-    print(address)
-
-# print(stores)
 
 
-# API KEY
-# api_file= ("api-key.txt", "r")
-api_key = "AIzaSyB2zq4lAoXmUL-vRSmJH7uRhvOsIsBRLgk"
-
-userLocation = input("Enter user address\n")
-storeLocation = input("enter store address\n")
-
-url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&"
-r = requests.get(url + "origins=" + userLocation + "&destinations=" + storeLocation + "&key=" + api_key)
-
-miles = ''
-second = ''
-
-if r.status_code == 200:
-    data = json.loads(r.text)
-    miles = data['rows'][0]['elements'][0]['distance']['text']
-    seconds = data["rows"][0]["elements"][0]["duration"]["value"]
-    print("\nThe total travel distance from user to car store is ", miles)
-
-### Calculations for Transfer Fee
-## Notes: Algorithm- Distance of User to Dealership in Miles Divided by Distnace of US-20
-## US Route 20 is the longest road in America going from Boston MA to Newport Oregon
-##US Route_20 Distance- 3365 miles
-## No parameters were provided by CarMax, so this equation is written to be a direct calculation and takes into account no factors ie. interstate shipping regulations, inflation, etc.
-
-# Assume we take the variable directly from miles variable
-distance = re.sub(r'[^\d]', '', miles)
-
-
-def roundtens(x):
-    return int(round(x / 10.0)) * 10
-
-
-# Algorithm
-route_20_distance = 3365
-transfer_cost = int(distance) / route_20_distance * 999
-transfer_cost = roundtens(transfer_cost) - .01
-
-if transfer_cost < 150:
-    transfer_cost = 0
-    print(transfer_cost)
-else:
-    print(transfer_cost)
->>>>>>> master
